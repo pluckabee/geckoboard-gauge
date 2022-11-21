@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GaugeDataResponse } from '../types'
-import { validateGaugeData } from "./gaugeDataValidator";
+import { validateGaugeData } from "../helpers/helpers";
 export const fetchGaugeData = () => {
   return axios
   .get<GaugeDataResponse>("https://widgister.herokuapp.com/challenge/frontend").then((response) => {

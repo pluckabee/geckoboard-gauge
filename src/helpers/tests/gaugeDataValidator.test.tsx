@@ -1,4 +1,4 @@
-import { validateGaugeData } from "./gaugeDataValidator";
+import { validateGaugeData } from "../helpers";
 
 describe("gaugeDataValidator", () => {
     test.each([
