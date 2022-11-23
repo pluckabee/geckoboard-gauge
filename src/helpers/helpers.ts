@@ -20,3 +20,9 @@ export const getPercentage = (value: number, max: number) => {
 };
 
 export const getAngleFromPercentage = (percentage: number) => 1.8 * percentage;
+
+export const getGaugeAngle = ({ max, min, value }: GaugeData) => {
+  const normalisedValues = normaliseGaugeRangeData({ max, min, value });
+  const valuePer = getPercentage(normalisedValues.value, normalisedValues.max);
+  return getAngleFromPercentage(valuePer);
+};

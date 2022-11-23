@@ -1,31 +1,25 @@
 import React, { useMemo, useState } from "react";
 import { GaugeData } from "../../types";
 import { Money, Currencies } from "ts-money";
+import './Gauge.css'
+import { getGaugeAngle } from "../../helpers/helpers";
 
-import {
-  normaliseGaugeRangeData,
-  getPercentage,
-  getAngleFromPercentage,
-} from "../../helpers/helpers";
-
-const colors = ["#a8e6cf ", "#dcedc1", "#ff8b94", "#ffd3b6",  "#ffaaa5"];
+const colors = ["#a8e6cf ", "#dcedc1", "#ff8b94", "#ffd3b6", "#ffaaa5"];
 
 export const Gauge = (props: GaugeData) => {
   const { max, min, value: rawValue, format, unit } = props;
 
-  const [value, setGaugeValue] = useState(rawValue);
+  const [gaugeValue, setGaugeValue] = useState(rawValue);
 
-  const normalisedValues = useMemo(
-    () => normaliseGaugeRangeData({ max, min, value: value }),
-    [min, max, value]
+  const gaugeIndicatorRotation = useMemo(
+    () => getGaugeAngle({ max, min, value: gaugeValue }),
+    [max, min, gaugeValue]
   );
 
-  const valuePer = getPercentage(normalisedValues.value, normalisedValues.max);
-  const gaugeIndicatorRotation = getAngleFromPercentage(valuePer);
-
   const gaugeWidth = 300;
-  const gaugeContainerHeight = 188;
   const gaugeRadius = gaugeWidth / 2;
+  const gaugeIndicatorExtrusion = 15
+  const gaugeContainerHeight = gaugeRadius + gaugeIndicatorExtrusion;
 
   const gaugeIndicatorX =
     gaugeRadius -
@@ -35,57 +29,52 @@ export const Gauge = (props: GaugeData) => {
     gaugeContainerHeight -
     Math.sin((gaugeIndicatorRotation * Math.PI) / 180) * gaugeRadius;
 
-  const formatValue = (toFormat: number) => {
+  const formatValue = (value: number) => {
     if (format && format === "currency" && unit) {
       const currency = Currencies[unit];
-      return `${currency.symbol}${new Money(toFormat * 100, currency)}`;
+      return `${currency.symbol}${new Money(value * 100, currency)}`;
     } else {
-      return toFormat;
+      return value;
     }
   };
   return (
     <>
       <div>
-        <span>{formatValue(value)}</span>
+        <span className='indicator-text'>{formatValue(gaugeValue)}</span>
       </div>
-      <span>{formatValue(min)}</span>
-      <svg width="300px" height="188px">
+      <span className='indicator-text'>{formatValue(min)}</span>
+      <svg width={`${gaugeWidth}px`} height={`${gaugeContainerHeight}px`}>
         <path
           id="gauge-body"
-          d="M0,188 a150,150 0 0,1 300,0 z"
+          d={`M0,${gaugeContainerHeight} a${gaugeRadius},${gaugeRadius} 0 0,1 ${gaugeWidth},0 z`}
           fill={colors[1]}
-          stroke={colors[0]}
-          strokeWidth="2"
         />
-
         <path
           id="gauge-fill-indicator"
-          d={`M 150 188 L 0 188 A150, 150 0 0 1 ${gaugeIndicatorX} ${gaugeIndicatorY}`}
-          stroke={colors[4]}
-          strokeWidth="2"
+          d={`M ${gaugeRadius} ${gaugeContainerHeight} L 0 ${gaugeContainerHeight} A${gaugeRadius}, ${gaugeRadius} 0 0 1 ${gaugeIndicatorX} ${gaugeIndicatorY}`}
           fill={colors[3]}
         />
         <ellipse
           id="gauge-dial-base"
-          cx="150"
-          cy="188"
+          cx={gaugeRadius}
+          cy={gaugeContainerHeight}
           rx="4"
           ry="4"
           fill={colors[2]}
         />
         <line
           id="gauge-dial"
-          x1="150"
-          y1="188"
-          x2="-15"
-          y2="188"
+          x1={gaugeRadius}
+          y1={gaugeContainerHeight}
+          x2={-gaugeIndicatorExtrusion}
+          y2={gaugeContainerHeight}
           stroke={colors[2]}
           strokeWidth="2"
-          transform-origin="150px 188px"
+          transform-origin={`${gaugeRadius}px ${gaugeContainerHeight}px`}
           transform={`rotate(${gaugeIndicatorRotation})`}
         />
       </svg>
-      <span>{formatValue(max)}</span>
+      <span className='indicator-text'>{formatValue(max)}</span>
       <div>
         <input
           type="number"
@@ -93,7 +82,7 @@ export const Gauge = (props: GaugeData) => {
           name="gauge"
           min={props.min}
           max={props.max}
-          value={value}
+          value={gaugeValue}
           onChange={(e) => {
             setGaugeValue(Number(e.target.value));
           }}
