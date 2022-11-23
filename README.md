@@ -1,46 +1,64 @@
-# Getting Started with Create React App
+# Geckoboard Gauge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is to fulfil the geckoboard code task
 
-## Available Scripts
+The task is outlined in [TASK.md](TASK.md)
 
-In the project directory, you can run:
+# Instructions
 
-### `npm start`
+This was built using create-react-app with --typescript option
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Instructions to run the app and test are found in [INSTRUCTIONS.md](INSTRUCTIONS.md)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Once set up, refresh to get new data
 
-### `npm test`
+# Final structure
+These are the most important files:
+index.tsx // original boilerplate name
+App.tsx // original boilerplate name
+Gauge.tsx
+helpers.ts
+gaugeDataService.ts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Start with src/index.tsx, this sets up the router and Router Provider.
+Our service `src/services/gaugeDataService.ts` is passed to the data loader
+`App` as the element
+A generic div is passed as the error element
 
-### `npm run build`
+Service `src/services/gaugeDataService.ts` validates the data and throws an error on server error or invalid data (`src/helpers/helpers.ts` `validateGaugeData`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Moving to `src/App.tsx` the `App` component pulls down the gauge data from the router hook and passes this down to child component `Gauge`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`src/components/Gauge.tsx` is the bulk of the work, rendering the indicator and labels. The data is passed in rather than using a hook.
+It consists of an SVG that responds to the given values from the API
+The SVG has three basic parts:
+    The body (the main semi circle)
+    The fill indicator
+    The lever/needle indicator and base group
 
-### `npm run eject`
+There is some maths here to shift the angle of the needle based on the values
+There is some maths here to create the fill indicator (we need to know where along the arc we are, this can be done based on the angle we have already calculated)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Most of this logic is written in the `src/helpers/helpers.ts` file and tested
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The SVGs paths use some variables to base these calculations on
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Write up
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+A write up of the process is written up in [PROCESS.md](PROCESS.md)
 
-## Learn More
+This document is split up into 4 main sections
+- Plans
+- Notes
+- Decisions
+- Improvements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*Plan* is the outline of my initial structure planning. This is purely technical planning. Some parts here may not be indicative of the final result
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+*Notes* are some considerations around the API and the UI that came up during the planning and development
+
+*Decisions* These are some non exhaustive notes of the decisions made during the process
+
+*Improvements* Some Improvements that could be made to both code and UI
+
