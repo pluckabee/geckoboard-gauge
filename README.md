@@ -2,7 +2,7 @@
 
 This is to fulfil the geckoboard code task
 
-The task is outlined in [TASK.md](TASK.md)
+The task is outlined in [task.md](task.md)
 
 # Instructions
 
