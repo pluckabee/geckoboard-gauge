@@ -1,5 +1,3 @@
-https://gist.github.com/leocassarani/57ff31870afc603462ea2b1feafecbe4
-
 ## The task:
 
 We'd like you to turn a payload like this:
