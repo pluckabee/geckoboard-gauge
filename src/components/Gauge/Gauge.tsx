@@ -39,7 +39,12 @@ export const Gauge = (props: GaugeData) => {
   };
   return (
     <>
-      <div>
+      <div role="meter"
+      id="gauge"
+      aria-valuenow={gaugeValue}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      >
         <span className='indicator-text'>{formatValue(gaugeValue)}</span>
       </div>
       <span className='indicator-text'>{formatValue(min)}</span>
