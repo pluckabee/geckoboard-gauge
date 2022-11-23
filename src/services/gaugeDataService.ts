@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GaugeDataResponse } from '../types'
+import { GaugeDataResponse } from '../types/GaugeDataTypes'
 import { validateGaugeData } from "../helpers/helpers";
 export const fetchGaugeData = () => {
   return axios

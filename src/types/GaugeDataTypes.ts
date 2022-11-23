@@ -1,4 +1,4 @@
-import { CurrencyCode } from './currencies'
+import { CurrencyCode } from './CurrencyCode'
 
 enum GaugeDataFormat {
     'currency'

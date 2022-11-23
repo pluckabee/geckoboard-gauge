@@ -1,4 +1,5 @@
-import { GaugeData } from "../types";
+import { GaugeData } from "../types/GaugeDataTypes";
+import { Money, Currencies } from "ts-money";
 
 export const validateGaugeData = (data: GaugeData) => {
   return (
@@ -25,4 +26,13 @@ export const getGaugeAngle = ({ max, min, value }: GaugeData) => {
   const normalisedValues = normaliseGaugeRangeData({ max, min, value });
   const valuePer = getPercentage(normalisedValues.value, normalisedValues.max);
   return getAngleFromPercentage(valuePer);
+};
+
+export const formatGaugeDataValue = (value: number, gaugeData: GaugeData) => {
+  if (gaugeData.format && gaugeData.format === "currency" && gaugeData.unit) {
+    const currency = Currencies[gaugeData.unit];
+    return `${currency.symbol}${new Money(value * 100, currency)}`;
+  } else {
+    return value;
+  }
 };

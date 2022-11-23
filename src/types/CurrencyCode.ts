@@ -1,3 +1,5 @@
+// Got this here
+// https://gist.github.com/Crownie/b92805d73ed85fa50fc99a4183ba3c71
 export enum CurrencyCode {
     USD = 'USD',
     CAD = 'CAD',

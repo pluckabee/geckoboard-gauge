@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouteLoaderData } from "react-router-dom";
 import { Gauge } from "./components/Gauge/Gauge";
-import { GaugeData } from "./types";
+import { GaugeData } from "./types/GaugeDataTypes";
 import "./App.css";
 
 function App() {

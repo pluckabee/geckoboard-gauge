@@ -1,6 +1,6 @@
-import { CurrencyCode } from "../../currencies";
+import { CurrencyCode } from "../../types/CurrencyCode";
 import { normaliseGaugeRangeData } from "../helpers";
-import { GaugeData } from "../../types";
+import { GaugeData } from "../../types/GaugeDataTypes";
 
 describe("normaliseGaugeRangeData", () => {
   test.each([

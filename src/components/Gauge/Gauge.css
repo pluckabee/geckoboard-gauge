@@ -2,3 +2,16 @@
     padding: 16px;
     display: inline-block;
 }
+
+.gauge-body {
+    fill: #dcedc1;
+}
+
+.gauge-fill-indicator {
+    fill: #ffd3b6;
+}
+
+.gauge-dial {
+    stroke: #ff8b94;
+    fill: #ff8b94;
+}
